@@ -96,7 +96,7 @@ void initState() {
             });} ),
             IconButton(icon: Icon(Icons.archive_outlined,color: textColor,size: 28,), onPressed:(){
                   Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => SearchPage()));}),
+                      MaterialPageRoute(builder: (context) => SearchPage(socketService)));}),
             IconButton(icon: Icon(Icons.delete_rounded,color: Colors.red,size: 28,), onPressed:() async{
                       String message = await provider.delete(_id);
                       Toast.show(message.toString(),context);
@@ -105,11 +105,11 @@ void initState() {
                       
             IconButton(icon: Icon(Icons.add_circle_outline,color: textColor,size: 28,), onPressed:(){
                   Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => SearchPage())); } ),
+                      MaterialPageRoute(builder: (context) => SearchPage(socketService))); } ),
           ]:[                
             IconButton(icon: Icon(Icons.add_circle_outline,color: textColor,size: 28,), onPressed:(){
                   Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => SearchPage()));} ),
+                      MaterialPageRoute(builder: (context) => SearchPage(socketService)));} ),
           ],
           ),
     ),

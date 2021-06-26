@@ -97,7 +97,8 @@ class AuthProvider extends BaseProvider {
       try {
         setBusy(true);
       var response = await _authService.register(_user);
-      var json = jsonDecode(response.body);    
+      var json = jsonDecode(response.body); 
+       print(json);   
       if (response.statusCode == 201) {
         var result = await login(_user.email.trim(), _user.password.trim());
         if (result) {
@@ -118,21 +119,25 @@ class AuthProvider extends BaseProvider {
       return false;
     }
   
-    Future<void> logout() async {
+    Future<bool> logout() async {
       try {
         setBusy(true);
         _conversations = ConversationProvider();
         var response = await _authService.logout();
-
+        print(response.body);
       if(response.statusCode== 200){
         _conversations.clear();
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.remove('access_token');
       setBusy(false);
       }
+      setBusy(false);
       } catch (e) {
         print(e);
       }
+      
+      setBusy(false);
+      return true;
     }
     setUserPicture(String imageUrl) {
       user.imageUrl='';
@@ -177,19 +182,19 @@ class AuthProvider extends BaseProvider {
         image = await picker.getImage(source: ImageSource.gallery).catchError(
           (onError) {print(onError.toString());}
       );
-        setBusy(true);
-        if(image.path!=null){
+        
+        if(image!=null){
         File  pickedImage = File(image.path);
         var response = await _userService.uploadImage(pickedImage);
         var data = jsonDecode(response.body);
         if (response.statusCode == 200 ||response.statusCode == 201) {
         setUserPicture(data['data']['image_url']);
-        setBusy(false);
-        return true;
-      }else{
-        return false;
+      
+      
       }
+        
         }
+        
       }catch(e){
         print(e);
         }
@@ -223,10 +228,13 @@ class AuthProvider extends BaseProvider {
       var response = await _userService.delete(user);
       if(response.statusCode == 200){
       setMessage(response.body);
+      _conversations.clear();
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.remove('access_token');
       return true;
       }
       setMessage(response.body);
-      return false;
+      return true;
 
     }
     Future<List<FriendModel>> gettingUserFriends() async{

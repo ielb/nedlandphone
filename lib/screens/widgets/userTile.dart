@@ -1,3 +1,4 @@
+import 'package:nedlandphone/Services/socket_service.dart';
 import 'package:nedlandphone/providers/auth_provider.dart';
 
 import '../../config/Constants.dart';
@@ -10,7 +11,8 @@ import 'package:provider/provider.dart';
 import '../chat.dart';
 
 class UserTille extends StatelessWidget {
-  UserTille(this.user);
+  UserTille(this.user,this.socketService);
+  final SocketService socketService;
   final   FriendModel user;
 
   @override
@@ -58,7 +60,7 @@ class UserTille extends StatelessWidget {
               Provider.of<AuthProvider>(context,listen: false).addFriend(user.uid);
             var conversation = await Provider.of<ConversationProvider>(context ,listen :false ).createChat(user.uid);
             Navigator.of(context).push(MaterialPageRoute(
-                builder: (_) => Chat(conversation:conversation,))); 
+                builder: (_) => Chat(conversation:conversation,socketService: socketService,))); 
             },
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 7,vertical: 7),

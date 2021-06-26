@@ -1,4 +1,4 @@
-import 'package:nedlandphone/screens/SignIn.dart';
+import 'package:nedlandphone/helper/authenticate.dart';
 import '../providers/auth_provider.dart';
 import 'changeEmail.dart';
 import 'widgets/Widgets.dart';
@@ -70,7 +70,7 @@ void initState() {
                               content: Text(auth.message),
                           ));
                           Provider.of<AuthProvider>(context,listen: false).logout();
-                          Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => SignIn((){})));
+                          Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => Authenticate()));
                         }else{
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               backgroundColor: firstColor,
@@ -86,9 +86,10 @@ void initState() {
                     SizedBox(height:15),
                     Widgets.accountWidget((){Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => CostumerService(true)));},'Customer Services',Icons.contact_support_outlined),
                     SizedBox(height:15),
-                    Widgets.redWidget(Icons.logout, 'Log out', (){
-                      auth.logout();
-                      Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => SignIn((){})));
+                    Widgets.redWidget(Icons.logout, 'Log out', ()async{
+                      bool result = await auth.logout();
+                      if(result)
+                      Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => Authenticate()));
                     }
                     ),
                     SizedBox(height:50),

@@ -50,14 +50,14 @@ class _ChatState extends State<Chat> {
   void initState(){
     super.initState();
     getuser(); 
-    //socketService.connect(Provider.of<AuthProvider>(context,listen: false));
     gettingMessages();
-   
+    //socketService.connect(Provider.of<AuthProvider>(context,listen: false));  
     message = new MessageModal();
     message.userId =  Provider.of<AuthProvider>(context,listen: false).user.uid;
     message.conversationId = conversation.id.toString();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+      
     });
   }  
 
@@ -73,6 +73,7 @@ gettingMessages(){
     (data){
       print(data);
       MessageModal message = MessageModal.fromJson(data);
+    
       addingMessages(message);
     }
   );
@@ -84,14 +85,19 @@ addingMessages(message){
       bool result = widget.conversation.messages.contains(message);
       if(!result)
       {
-        setState(() {
-          conversation.messages.add(message);
-        _scrollController.animateTo(_scrollController.position.maxScrollExtent,
-            duration: Duration(milliseconds: 300), curve: Curves.easeOut);
-        });      
+        if (this.mounted) { 
+          setState(() {
+            conversation.messages.add(message); 
+          });
+        }      
       }
       }
 }
+
+@override
+  void setState(VoidCallback fn) {
+    super.setState(fn);
+  }
 
 
 
@@ -100,7 +106,6 @@ addingMessages(message){
   Widget build(BuildContext context) {
     var provider = Provider.of<AuthProvider>(context,listen: false);
     var prov =Provider.of<ConversationProvider>(context,listen: false);
-    
     return SafeArea(
           child: Scaffold(
             key:scaffoldKey ,
@@ -141,10 +146,10 @@ addingMessages(message){
             actions: isSelected  ?  [
             IconButton(icon: Icon(Icons.delete_rounded,color: Colors.red,size: 28,), onPressed:(){
                   Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => SearchPage()));}), 
+                      MaterialPageRoute(builder: (context) => SearchPage(socketService)));}), 
             IconButton(icon: Icon(Icons.copy_outlined,color: Colors.white,size: 28,), onPressed:(){
                   Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => SearchPage()));}), 
+                      MaterialPageRoute(builder: (context) => SearchPage(socketService)));}), 
             SizedBox(width: 20)
           ]:[                
             

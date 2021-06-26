@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:nedlandphone/models/User.dart';
@@ -42,13 +43,12 @@ class ConversationProvider extends BaseProvider {
     }
 
     Future<void> storeMessage(MessageModal message) async {
-      setBusy(true);
+      
       var response = await _conversationService.storeMessage(message);
+      print(response.body);
       if (response.statusCode == 201) {
-        setBusy(false);
+      
       }
-
-      setBusy(false);
     }
     clear(){
       _conversations.clear();
@@ -107,26 +107,45 @@ class ConversationProvider extends BaseProvider {
     }
 
 
-    storePicturesToConversation() async {
-      print('somtiond');
+  Future<Uint8List >  storePicturesToConversation() async {
+      File file ;
       FilePickerResult result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
         allowedExtensions: ['jpg','jpeg','png','gif','mp4','mov','avi'],
-        allowCompression: true,
-        allowMultiple: true   
-      ).onError((error, stackTrace) => null);
+        allowCompression: true,  
+      ).onError((error, stackTrace){ print(error);  return null;   });
       if(result != null) {
+        if(result.isSinglePick){
+          print(result.paths[0]);
+          if(result.files[0].bytes!= null){
+            file = File.fromRawPath(result.files[0].bytes);
+            
+          var s ;
+          file.writeAsString(s);
+          print(s);
+          return result.files[0].bytes;
+          }
+
           
-      } else {
-        return;
+          
+        }
       }
+      return null;
     }
-    storePicturesFromCameraToConversation() async {
-      ImagePicker picker = new ImagePicker();
-      PickedFile  image = await picker.getImage(source: ImageSource.camera).catchError(
+  Future<Uint8List> storePicturesFromCameraToConversation() async {
+      try{ 
+        ImagePicker picker = new ImagePicker();
+        PickedFile  attachemt = await picker.getImage(source: ImageSource.gallery).catchError(
           (onError) {print(onError.toString());}
-      );
-      print(image.path);
+        );
+        if(attachemt!=null){
+            Uint8List som = await attachemt.readAsBytes();
+          return som;}
+        
+      }catch(ex){
+        print(ex.message);
+      }
+      return null;
     }
     delete(String id) async{
     Response response = await _conversationService.delete(id);

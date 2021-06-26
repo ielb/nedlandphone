@@ -1,3 +1,7 @@
+import 'package:nedlandphone/Services/socket_service.dart';
+import 'package:nedlandphone/providers/auth_provider.dart';
+import 'package:provider/provider.dart';
+
 import 'Account.dart';
 import '../config/Constants.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +33,9 @@ class _ControlPagesState extends State<ControlPages> {
 
 @override
 void initState()  {   
+ var user = Provider.of<AuthProvider>(context,listen: false); 
+  var socketService = SocketService();
+  socketService.connect(user);
     super.initState();    
   _selectedIndex =widget.index;
   _pageController = PageController(initialPage: _selectedIndex,);

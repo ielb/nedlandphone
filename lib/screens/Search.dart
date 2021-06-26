@@ -1,4 +1,5 @@
 
+import 'package:nedlandphone/Services/socket_service.dart';
 import 'package:nedlandphone/providers/auth_provider.dart';
 
 import '../config/Constants.dart';
@@ -10,13 +11,16 @@ import 'ControlPages.dart';
 import 'package:toast/toast.dart';
 
 class SearchPage extends StatefulWidget {
-  SearchPage({Key key}) : super(key: key);
+  final SocketService socketService;
+  SearchPage(this.socketService);
 
   @override
-  _SearchPageState createState() => _SearchPageState();
+  _SearchPageState createState() => _SearchPageState(this.socketService);
 }
 
 class _SearchPageState extends State<SearchPage> {
+  _SearchPageState(this.socketService);
+  final SocketService socketService ;
   final _inputSearchFormKey = GlobalKey<FormState>();
   var _inputSearchController = TextEditingController();
   FriendModel user ;
@@ -47,7 +51,7 @@ void _startSearching(){
       shrinkWrap: true,
       itemCount:snapshot.data.length,
       itemBuilder: (context, index){
-        return   UserTille(snapshot.data[index]);
+        return   UserTille(snapshot.data[index],socketService);
         }) : Align(
           alignment: Alignment.center,
           child: Text("You don't have any friends yet \n Add them now !",style: TextStyle(color: textColor,fontSize:20,fontWeight: FontWeight.w300),),
@@ -60,7 +64,7 @@ void _startSearching(){
       shrinkWrap: true,
       itemCount:1,
       itemBuilder: (context, index){
-        return  UserTille(user);
+        return  UserTille(user,socketService);
         }) ;
   }
   @override

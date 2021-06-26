@@ -12,7 +12,7 @@ class ConversationService extends BaseApi {
     return await api.httpPost('message', {
       'body': message.body.toString(),
       'to' :message.userId,
-      'chat_room_id': message.conversationId.toString()
+      'conversation_id': message.conversationId.toString()
     });
   }
   Future<http.Response> createChat(String uid) async {
