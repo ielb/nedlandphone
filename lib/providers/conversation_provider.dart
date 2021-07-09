@@ -64,7 +64,7 @@ class ConversationProvider extends BaseProvider {
       }
       setBusy(false);
       }
-  addMessageToConversation( MessageModal message) {
+  void addMessageToConversation( MessageModal message) {
     print("Conversation proider " + message.conversationId);
     var conversation = _conversations
         .firstWhere((conversation) => conversation.id == message.conversationId);

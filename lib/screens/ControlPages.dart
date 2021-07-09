@@ -59,26 +59,24 @@ List<IconData> iconList = [ Icons.home_filled,Icons.person ];
   }
   @override
   Widget build(BuildContext context) {
-      return SafeArea(
-        child: Scaffold(
-        
-          backgroundColor: secondColor,
-        body: buildPageView(),
-        bottomNavigationBar:AnimatedBottomNavigationBar(
-          iconSize: 30,
-          height: 50,
-        gapLocation: GapLocation.center,
-        icons: iconList,
-        activeColor: mainColor,
-        splashColor: mainColor,
-        backgroundColor: firstColor,
-        inactiveColor: textColor,
-        activeIndex: _selectedIndex,
-        leftCornerRadius: 20,
-        rightCornerRadius: 20,
-        onTap: _onItemTaped),
+      return Scaffold(
+      
+        backgroundColor: secondColor,
+      body: buildPageView(),
+      bottomNavigationBar:AnimatedBottomNavigationBar(
+        iconSize: 30,
+        height: 50,
+      gapLocation: GapLocation.center,
+      icons: iconList,
+      activeColor: mainColor,
+      splashColor: mainColor,
+      backgroundColor: firstColor,
+      inactiveColor: textColor,
+      activeIndex: _selectedIndex,
+      leftCornerRadius: 20,
+      rightCornerRadius: 20,
+      onTap: _onItemTaped),
       //other params
-    ),
-      );
+    );
   }
 }

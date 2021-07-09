@@ -78,42 +78,40 @@ void initState() {
   @override
   Widget build(BuildContext context) {
     ConversationProvider provider =  Provider.of<ConversationProvider>(context,listen: false);   
-      return SafeArea(
-        child: Scaffold(
-          backgroundColor: secondColor,
-        body:  chatRoomsList(),
-        appBar: AppBar(
-          automaticallyImplyLeading: false, 
-          centerTitle: false,
-          toolbarHeight: 100,
-          backgroundColor: Colors.transparent,
-          elevation: 0.0,
-          bottomOpacity: 0,
-          title: Text('Messages',style:TextStyle(color:textColor,fontSize: 26,fontWeight: FontWeight.w700)),
-          actions:isSelected  ?  [
-            IconButton(icon: Icon(Icons.cancel_outlined,color: textColor,size: 28,), onPressed:(){setState(() {
-              isSelected = false;
-            });} ),
-            IconButton(icon: Icon(Icons.archive_outlined,color: textColor,size: 28,), onPressed:(){
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => SearchPage(socketService)));}),
-            IconButton(icon: Icon(Icons.delete_rounded,color: Colors.red,size: 28,), onPressed:() async{
-                      String message = await provider.delete(_id);
-                      Toast.show(message.toString(),context);
-                      }
-                      ), 
-                      
-            IconButton(icon: Icon(Icons.add_circle_outline,color: textColor,size: 28,), onPressed:(){
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => SearchPage(socketService))); } ),
-          ]:[                
-            IconButton(icon: Icon(Icons.add_circle_outline,color: textColor,size: 28,), onPressed:(){
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => SearchPage(socketService)));} ),
-          ],
-          ),
-    ),
-      );
+      return Scaffold(
+        backgroundColor: secondColor,
+      body:  SafeArea(child:chatRoomsList()),
+      appBar: AppBar(
+        automaticallyImplyLeading: false, 
+        centerTitle: false,
+        toolbarHeight: 100,
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        bottomOpacity: 0,
+        title: Text('Messages',style:TextStyle(color:textColor,fontSize: 26,fontWeight: FontWeight.w700)),
+        actions:isSelected  ?  [
+          IconButton(icon: Icon(Icons.cancel_outlined,color: textColor,size: 28,), onPressed:(){setState(() {
+            isSelected = false;
+          });} ),
+          IconButton(icon: Icon(Icons.archive_outlined,color: textColor,size: 28,), onPressed:(){
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => SearchPage(socketService)));}),
+          IconButton(icon: Icon(Icons.delete_rounded,color: Colors.red,size: 28,), onPressed:() async{
+                    String message = await provider.delete(_id);
+                    Toast.show(message.toString(),context);
+                    }
+                    ), 
+                    
+          IconButton(icon: Icon(Icons.add_circle_outline,color: textColor,size: 28,), onPressed:(){
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => SearchPage(socketService))); } ),
+        ]:[                
+          IconButton(icon: Icon(Icons.add_circle_outline,color: textColor,size: 28,), onPressed:(){
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => SearchPage(socketService)));} ),
+        ],
+        ),
+    );
   }
 }
 

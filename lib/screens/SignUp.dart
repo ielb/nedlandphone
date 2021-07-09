@@ -1,4 +1,5 @@
 import 'package:nedlandphone/config/Config.dart';
+import 'package:nedlandphone/screens/splash.dart';
 
 import '../providers/auth_provider.dart';
 import 'SignIn.dart';
@@ -50,59 +51,59 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<AuthProvider>(context);
-    return SafeArea(
-          child: Scaffold(
-            key: _scafoldKey,
-            resizeToAvoidBottomInset: false,
-            backgroundColor: secondColor,
-            body: Provider.of<AuthProvider>(context).busy
-              ? Container(
-                  child: Center(child: CircularProgressIndicator()),
-                )
-              : SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Widgets.asset( Image.asset('assets/logo/NedLandPhone.png')),
-                      SizedBox(height:Config.getHeight(context)/15),
-                      _signUp(),
-                      SizedBox(height:20),
-                      SizedBox(height:Config.getHeight(context)/18),
-                      Widgets.button('Sign Up',()async{
-                        if(formey.currentState.validate()){
-                          formey.currentState.save();
-                          var result = await provider.register();
-                            if (result) {
-                                
-                          var route = MaterialPageRoute(builder: (context) =>HandlData());
-                            Navigator.of(context).pushReplacement(route);
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor: firstColor,
-                            content: Text(provider.message),
-                          ));
-                        } 
-                              setState(() {
-                                isValidate = true;
-                              });
-                        }
-                        else{
+    return Scaffold(
+      key: _scafoldKey,
+      resizeToAvoidBottomInset: false,
+      backgroundColor: secondColor,
+      body: Provider.of<AuthProvider>(context).busy
+        ? Container(
+            child: Center(child: Splash()),
+          )
+        : SafeArea(
+          child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Widgets.asset( Image.asset('assets/logo/NedLandPhone.png')),
+                  SizedBox(height:Config.getHeight(context)/15),
+                  _signUp(),
+                  SizedBox(height:20),
+                  SizedBox(height:Config.getHeight(context)/18),
+                  Widgets.button('Sign Up',()async{
+                    if(formey.currentState.validate()){
+                      formey.currentState.save();
+                      var result = await provider.register();
+                        if (result) {
+                            
+                      var route = MaterialPageRoute(builder: (context) =>HandlData());
+                        Navigator.of(context).pushReplacement(route);
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor: firstColor,
+                        content: Text(provider.message),
+                      ));
+                    } 
                           setState(() {
-                            isValidate = false;
+                            isValidate = true;
                           });
-                      }
-                      }),
-                      SizedBox(height:10),
-                      Widgets.textSign("Already have an account?"),
-                      Widgets.signButton('Sign In !',() 
-                      { 
-                        var route = MaterialPageRoute(builder: (context) => SignIn(widget.toggleView));
-                          Navigator.of(context).pushReplacement(route);}),
-                      SizedBox(height:100),
-                    ],
-                          ),
-              ),
-                              ),
-                    
-    );
+                    }
+                    else{
+                      setState(() {
+                        isValidate = false;
+                      });
+                  }
+                  }),
+                  SizedBox(height:10),
+                  Widgets.textSign("Already have an account?"),
+                  Widgets.signButton('Sign In !',() 
+                  { 
+                    var route = MaterialPageRoute(builder: (context) => SignIn(widget.toggleView));
+                      Navigator.of(context).pushReplacement(route);}),
+                  SizedBox(height:100),
+                ],
+                      ),
+          ),
+        ),
+                        );
   }
   
  

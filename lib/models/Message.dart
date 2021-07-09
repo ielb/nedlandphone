@@ -4,6 +4,7 @@ class MessageModal {
   String id;
   String body;
   int read;
+  int isImage;
   String userId;
   String attachmentPath;
   String conversationId;
@@ -24,6 +25,7 @@ class MessageModal {
     body = json['body'];
     if(json['attachmentPath']!=null)
     attachmentPath = json['attachmentPath'];
+    isImage = json['isImage'];
     read = 0 ;
     userId = json['user_id'].toString();
     conversationId = json['conversation_id'].toString();
@@ -35,6 +37,7 @@ class MessageModal {
     body = json['body'];
     if(json['attachmentPath']!=null)
     attachmentPath = json['attachmentPath'];
+    isImage = json['isImage'];
     read = 0 ;
     userId = json['user_id'].toString();
     conversationId = json['conversation_id'].toString();
@@ -44,12 +47,13 @@ class MessageModal {
 
 
   Map<String, String> toJson() {
-    final Map<String, String> data = new Map<String, String>();
-    data['id'] = this.id.toString();
+    final Map<String, dynamic> data = new Map<String, String>();
+    data['id'] = this.id;
     data['body'] = this.body;
+    data['isImage'] = this.isImage.toString();
     data['read'] = this.read.toString();
     data['user_id'] =this.userId;
-    data['conversation_id'] = this.conversationId.toString();
+    data['conversation_id'] = this.conversationId;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     return data;

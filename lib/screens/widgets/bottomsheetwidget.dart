@@ -1,3 +1,5 @@
+import 'package:nedlandphone/Services/socket_service.dart';
+import 'package:nedlandphone/screens/imageWidget.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/Conversation.dart';
@@ -10,15 +12,16 @@ import 'package:flutter/material.dart';
 
 class BottomSheetWidget extends StatefulWidget {
   final ConversationModel conversation;
-  BottomSheetWidget(this.conversation);
-
+  BottomSheetWidget(this.conversation,this.service);
+  final SocketService service;
   @override
-  _BottomSheetWidgetState createState() => _BottomSheetWidgetState(this.conversation);
+  _BottomSheetWidgetState createState() => _BottomSheetWidgetState(this.conversation,this.service);
 }
 
 class _BottomSheetWidgetState extends State<BottomSheetWidget> {
-  _BottomSheetWidgetState(this.conversation);
+  _BottomSheetWidgetState(this.conversation,this.service);
   ConversationModel conversation ;
+  SocketService service;
   @override
   void initState() { 
     super.initState();
@@ -73,8 +76,8 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
                       ),
                   ),
                   GestureDetector(
-                      onTap: ()async{
-                        await prov.storePicturesToConversation();
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>ImagesView(service :this.service,conversation:this.conversation)));
                       },
                     child: Container(
                         margin: const EdgeInsets.only(top: 15),

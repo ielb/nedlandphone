@@ -12,6 +12,7 @@ class ConversationService extends BaseApi {
     return await api.httpPost('message', {
       'body': message.body.toString(),
       'to' :message.userId,
+      'isImage':message.isImage.toString(),
       'conversation_id': message.conversationId.toString()
     });
   }

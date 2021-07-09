@@ -38,37 +38,37 @@ void initState() {
   Widget build(BuildContext context) {
     height = Config.getHeight(context)/2.6;
     var provider =Provider.of<AuthProvider>(context,listen: false);
-    return SafeArea(
-          child: Scaffold(
-            key: _scafoldKey,
-            resizeToAvoidBottomInset: false,
-            extendBody: true,
-              backgroundColor: secondColor,
-              body: provider.busy
-          ? Center(
-              child: Splash()
-            )  : SingleChildScrollView(
-                controller: scrollController,
-                scrollDirection: Axis.vertical,
-                      child: Column(
-                      children: [
-                        Widgets.asset( Image.asset('assets/logo/NedLandPhone.png')),
-                        SizedBox(height:Config.getHeight(context)/24),
-                        _signIn(),
-                        SizedBox(height:Config.getHeight(context)/15),
-                        Widgets.button('Sign In',() async => await signIn(provider)),
-                        SizedBox(height:10),
-                        Widgets.textSign("Don't have an account?") ,
-                        Widgets.signButton('Get yours now!',(){
-                            var route = MaterialPageRoute(builder: (context) => SignUp(widget.toggleView));
-                            Navigator.of(context).push(route);
-                      }),
-                        SizedBox(height:140),
-                      ],
-                    ),
-              ),
-              ),
-    );
+    return Scaffold(
+      key: _scafoldKey,
+      resizeToAvoidBottomInset: false,
+      extendBody: true,
+        backgroundColor: secondColor,
+        body: provider.busy
+    ? Center(
+        child: Splash()
+      )  : SafeArea(
+        child: SingleChildScrollView(
+            controller: scrollController,
+            scrollDirection: Axis.vertical,
+                  child: Column(
+                  children: [
+                    Widgets.asset( Image.asset('assets/logo/NedLandPhone.png')),
+                    SizedBox(height:Config.getHeight(context)/24),
+                    _signIn(),
+                    SizedBox(height:Config.getHeight(context)/15),
+                    Widgets.button('Sign In',() async => await signIn(provider)),
+                    SizedBox(height:10),
+                    Widgets.textSign("Don't have an account?") ,
+                    Widgets.signButton('Get yours now!',(){
+                        var route = MaterialPageRoute(builder: (context) => SignUp(widget.toggleView));
+                        Navigator.of(context).push(route);
+                  }),
+                    SizedBox(height:140),
+                  ],
+                ),
+          ),
+      ),
+        );
   }
   //Sign In Conatainer 
   Widget _signIn(){

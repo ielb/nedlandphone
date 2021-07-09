@@ -8,7 +8,7 @@ class SocketService {
 IO.Socket socket;
   void connect(AuthProvider userProvider) async {
     try{
-      socket = IO.io('http://192.168.0.115:5000',
+      socket = IO.io('http://192.168.100.39:5000',
       OptionBuilder()
       .setTransports(['websocket'])
       .disableAutoConnect() 

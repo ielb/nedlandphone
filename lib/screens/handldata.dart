@@ -16,6 +16,7 @@ class _HandlDataState extends State<HandlData> {
   @override
 void initState() { 
   WidgetsBinding.instance.addPostFrameCallback((_){
+      if(mounted)
       checkUser();
     }
     );
@@ -44,9 +45,7 @@ checkUser()async{
       builder: (context, AsyncSnapshot snapshot) {
         // Show splash screen while waiting for app resources to load:
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return MaterialApp( showSemanticsDebugger: false,
-                    debugShowCheckedModeBanner: false,
-                    debugShowMaterialGrid: false,home: Splash());
+          return  Splash();
         } 
         return ControlPages(0);
       }

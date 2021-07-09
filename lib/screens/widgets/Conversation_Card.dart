@@ -59,7 +59,7 @@ class ChatTille extends StatelessWidget {
                           fontFamily: 'OverpassRegular',
                           fontWeight: FontWeight.w300)),
                           SizedBox(height:5),
-                    Text(conversation.messages.isNotEmpty  ? "${conversation.messages.last.body ?? ''}" :"No messages yet",
+                    Text(conversation.messages.isNotEmpty  ? conversation.messages.last.isImage==0 ?"${conversation.messages.last.body ?? ''}" : "Image":"No messages yet",
                         textAlign: TextAlign.start,
                         style: TextStyle(
                             color: Colors.white,

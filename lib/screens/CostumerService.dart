@@ -43,19 +43,19 @@ var formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child:  Scaffold(
-          appBar :AppBar(
-            leading: IconButton(icon: Icon(Icons.arrow_back_ios,color: mainColor,), onPressed: (){
-              !widget.isFromAccountPage ?
-            Navigator.of(context).pop() : Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => ControlPages(2)));
-            },color: Colors.white,),
-            backgroundColor: Colors.transparent,
-            elevation: 0.0,
-            bottomOpacity: 0,
-          ),
-          backgroundColor: firstColor,
-              body:SingleChildScrollView(
+    return Scaffold(
+        appBar :AppBar(
+          leading: IconButton(icon: Icon(Icons.arrow_back_ios,color: mainColor,), onPressed: (){
+            !widget.isFromAccountPage ?
+          Navigator.of(context).pop() : Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => ControlPages(2)));
+          },color: Colors.white,),
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+          bottomOpacity: 0,
+        ),
+        backgroundColor: firstColor,
+            body:SafeArea(
+              child: SingleChildScrollView(
                 child: Form(
                   key: formKey,
                   child: Column(
@@ -75,8 +75,8 @@ var formKey = GlobalKey<FormState>();
                       ),
                               ),
               ),
-                    ),
-    );
+            ),
+                  );
   }
 
 
